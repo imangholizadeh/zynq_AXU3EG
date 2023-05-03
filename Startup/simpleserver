@@ -1,0 +1,53 @@
+#! /bin/sh
+sleep 0.5
+ip addr add 172.30.202.145/24 dev eth0 
+sleep 0.5
+ip addr add 172.30.202.77/24 dev eth0 
+sleep 0.5
+ip addr add 172.30.202.78/24 dev eth0 
+sleep 0.5
+ifconfig
+sleep 0.5
+export QT_QPA_PLATFORM='linuxfb'
+sleep 0.5
+/home/root/edgedete &
+sleep 0.5
+sleep 0.5
+sleep 0.5
+export DISPLAY=:0.0 
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+
+sleep 0.5
+sleep 0.5
+sleep 0.5
+
+/etc/init.d/xserver-nodm start 
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+
+sleep 0.5
+sleep 0.5
+sleep 0.5
+
+xrandr --output DP-1 --mode 1600x900 
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+sleep 0.5
+
+exit 0
+
+
+
+
