@@ -1,0 +1,136 @@
+
+#source vivado
+source /tools/Xilinx/Vivado/2020.1/settings64.sh
+#run vivado
+vivado&
+
+cd /tools/Xilinx/Vivado/2020.1/data/xicom/cable_drivers/lin64/install_script/install_drivers 
+#install programmer and other driver
+sudo ./install_drivers
+
+#check library
+source /tools/Xilinx/Vivado/2020.1/settings64.sh 
+arm-linux-gnueabihf-gcc -v
+
+source /tools/Xilinx/Vivado/2020.1/settings64.sh 
+aarch64-linux-gnu-gcc -v
+
+
+##########################################
+#####   Introduction to Petalinux
+##########################################
+#Install the necessary libraries
+sudo apt-get update
+chmod +x host_env_setup.sh
+./host_env_setup.sh
+
+sudo -s
+mkdir -p /opt/pkg/petalinux 
+chgrp zynq /opt/pkg/
+chown zynq /opt/pkg/
+chgrp zynq /opt/pkg/petalinux
+chown zynq /opt/pkg/petalinux
+exit
+
+
+##########################################
+#####   	 cource 3 Petalinux
+#  	 zynqMP SOC Linux Development Basics
+# 	uses Petalinux to customize the Linux system
+#
+##########################################
+#Petalinux build project 
+1=  mkdir -p /home/zynq/peta_prj/linuxPsBase/hardware
+2= (Copy the file with the suffix .xsa)
+3= cd /home/zynq/peta_prj/linuxPsBase/petalinux
+4= source /opt/pkg/petalinux/settings.sh
+5= petalinux-create -t project -n petalinux --template zynqMP
+6= cd /home/zynq/peta_prj/linuxPsBase/petalinux
+7= petalinux-config --get-hw-description ../hardware/
+
+##########################################
+#Set up offline compilation
+/home/zynq/Downloads/petalinux_offline_pkg/sstate_aarch64_2020.1/aarch64
+file:///home/zynq/Downloads/petalinux_offline_pkg/downloads_2020.1/downloads
+#Set local kernel source code and u-boot source code
+/home/zynq/Downloads/petalinux_offline_pkg/linux-xlnx-xlnx_rebase_v5.4_2020.1
+/home/zynq/Downloads/petalinux_offline_pkg/u-boot-xlnx-xilinx-v2020.1
+
+
+#Generate BOOT file
+cd ~/peta_prj/linuxPsBase/petalinux/images/linux
+
+petalinux-package --boot --u-boot --fpga --fsbl --force
+# if error=>
+petalinux-package --boot --u-boot --fsbl --force
+
+#Create and use bsp package
+petalinux-package --bsp -p ./petalinux/ --output chapter1.bsp
+petalinux-create -t project -n petalinux_bsp -s ./chapter1.bsp
+
+#Run petalinux command to configure rootfs 
+petalinux-config -c rootfs
+
+source /opt/petalinux/2020.1/environment-setup-aarch64-xilinx-linux
+
+/opt/petalinux/2020.1/sysroots/x86_64-petalinux-linux/usr/bin/qmake
+#gcc c
+Change "Name" to "zynqMP_GCC", and 
+select "/opt/petalinux/2020.1/sysroots/x86_64-petalinux-linux/usr/bin/aarch64-xilinx-linux/aarch64-xilinx-linux-gcc" for "Compiler path"
+
+#gcc c++
+"zynqMP_C++", "/opt/petalinux/2020.1/sysroots/x86_64-petalinux-linux/usr/bin/aarch64-xilinx-linux/aarch64-xilinx-linux-g++
+#Debuggers
+ change the name to "zynqMP_gdb", 
+ select "/opt/petalinux/2020.1/sysroots/x86_64-petalinux-linux/usr/bin/aarch64-xilinx-linux/aarch64-xilinx-linux-gdb"
+ 
+ 
+ change "Name" to "zynqMP, Device type" select "Generic Linux Device", 
+ Compiler: select "zynqMP_GCC", "Compiler "C++" select "zynqMP_C++", "Debugger" select
+"zynqMP_gdb", "Qt version" select "Qt 5.13.2(System)".
+
+
+tar -zxvf /home/zynq/peta_prj/linuxPsBase/petalinux/images/linux/rootfs.tar.gz -C /media/zynq/ROOTFS
+
+
+sudo tar -zxvf /media/zynq/ROOTFS/rootfs.tar.gz -C .
+sudo tar -xfz /media/zynq/ROOTFS/rootfs.tar.gz -C .
+
+
+cp /home/zynq/peta_prj/linuxPsBase/petalinux/images/linux/rootfs.tar.gz  /media/zynq/rootfs/
+
+
+qt5-qtserialport
+
+
+
+
+#install qt
+sudo apt-get install build-essential libfontconfig1 mesa-common-dev libglu1-mesa-dev clang build-essential -y libfontconfig1 -y mesa-common-dev -y libglu1-mesa-dev -y clang -y
+
+
+
+#symlink
+base link /usr/lib  or
+export LD_LIBRARY_PATH=/home/root
+ ln -s /home/root/libQt5SerialPort.so.5.9.7 /home/root/libQt5SerialPort.so.5
+ 
+ 
+ 
+ 
+# OPEN admin wt wrestur
+
+ sudo /home/zynq/Qt5.14.2/Tools/QtCreator/bin/qtcreator.sh
+
+
+
+#for sd card:
+first create 2 partition
+then cp 3 file in part 1 and 1 file in part 2
+sudo tar -zxvf /media/zynq/ROOTFS/rootfs.tar.gz -C .
+
+
+#Self-start script
+petalinux-create -t apps --template install --name autostart --enable --force
+petalinux-build
+petalinux-package --boot --u-boot --fsbl --force
