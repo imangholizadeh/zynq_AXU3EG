@@ -1,6 +1,5 @@
 1) Installing Virtual Machine and Ubuntu System
 2) Installing Ubuntu System "ubuntu-18.04.2-desktop-amd64.iso" on Virtual Machine 
-3) Download "qt-opensource-linux-x64-5.14.1.run" from below link: https://qt.mirror.constant.com/archive/qt/
-4) Install  "qt-opensource-linux-x64-5.14.1.run"
-5) Vitis Development Environment Installation (copy this "Xilinx_Unified_2020.1_0602_1208 " file and install Vitis)
-6) Petalinux Tool Installation
+3) Download and Install "qt-opensource-linux-x64-5.14.1.run" from below link: https://qt.mirror.constant.com/archive/qt/
+4) Install Vitis Development Environment  (copy this "Xilinx_Unified_2020.1_0602_1208 " file and install Vitis)
+5) Install Petalinux Tool 
